@@ -52,23 +52,32 @@ namespace RoadRailSpeeds.Systems
                     float dashWidth = 1.2f;
                     float dashLength = 14.0f;
                     float gapLength = 9.0f;
-                    OverlayBuffer.DrawCurve(s_WaterNodeEdge, s_WaterSideFill, wideOutlineWidth, (OverlayRenderSystem.StyleFlags)0, curve.Curve, wideBodyWidth);
-                    OverlayBuffer.DrawCurve(s_WaterCenterFill, curve.Curve, centerBodyWidth);
+                    OverlayBuffer.DrawCurve(
+                        s_WaterNodeEdge,    // yellow outline
+                        s_WaterSideFill,    // magenta body
+                        wideOutlineWidth,   // 1.4
+                        (OverlayRenderSystem.StyleFlags)0,
+                        curve.Curve,
+                        wideBodyWidth); // 13.0
+                    OverlayBuffer.DrawCurve(
+                        s_WaterCenterFill,  // cyan
+                        curve.Curve,
+                        centerBodyWidth);   // 13 * 0.42 = 5.46
                     OverlayBuffer.DrawDashedCurve(s_WhiteDash, curve.Curve, dashWidth, dashLength, gapLength);
                 }
             }
         }
 
-        // Waterway selection knobs. Road/rail outlines are not drawn here on purpose.
-        // Do not add road/rail DrawCurve rendering here; already tested + rejected for segment joins.
-        // This intentionally restores high-visibility test look: magenta sides, cyan center,
+        // Waterway select knobs. Road/rail outlines are not drawn here on purpose.
+        // Future me: Do not add road/rail DrawCurve rendering here; already tested + rejected for segment joins.
+        // This purposely restores high-visibility test look: magenta sides, cyan center,
         // white lane dash, and yellow node caps/outer edge so waterway segment joins are obvious.
         private static readonly Color s_WaterNodeEdge = new Color(1.00f, 0.90f, 0.12f, 0.78f);
         private static readonly Color s_WaterSideFill = new Color(0.68f, 0.10f, 0.78f, 0.58f);
         private static readonly Color s_WaterCenterFill = new Color(0.42f, 1.00f, 0.88f, 0.72f);
         private static readonly Color s_WhiteDash = new Color(1.00f, 1.00f, 1.00f, 0.86f);
         // Fixed visual width on purpose: prefab waterway widths are huge and make the overlay cover
-        // the full seaway surface. This keeps the test-look lane narrow and readable.
+        // the full seaway surface. This keeps the lane preview narrow-readable.
         private const float s_WaterVisualWidth = 13.0f;
 
         private OverlayRenderSystem m_OverlayRenderSystem = null!;
